@@ -18,6 +18,13 @@
   <div class="dashboard-header">
     <h2 class="dashboard-subtitle">Today's Overview</h2>
     <p class="dashboard-date">{{ getCurrentDate() }}</p>
+    <button 
+      class="e-btn e-primary refresh-btn" 
+      (click)="refreshSleepData()"
+      title="Refresh Sleep Data">
+      <span class="e-icons e-refresh"></span>
+      Refresh Data
+    </button>
   </div>
 
   <!-- Health Metrics Grid -->
@@ -88,7 +95,11 @@
         </div>
         <div class="summary-item">
           <span class="summary-label">Avg Sleep:</span>
-          <span class="summary-value">7.2 hrs</span>
+          <span class="summary-value">{{ sleepSummary.average }} hrs</span>
+          <span class="trend-indicator" [class.trend-up]="sleepSummary.trend === 'increasing'" 
+                [class.trend-down]="sleepSummary.trend === 'decreasing'">
+            {{ sleepSummary.trend === 'increasing' ? '↗' : sleepSummary.trend === 'decreasing' ? '↘' : '→' }}
+          </span>
         </div>
       </div>
     </div>

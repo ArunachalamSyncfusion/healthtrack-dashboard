@@ -1,0 +1,96 @@
+<!-- App Header -->
+<div class="health-appbar">
+  <div class="app-header-content">
+    <div class="header-left">
+      <h1 class="app-title">{{ title }}</h1>
+    </div>
+    <div class="header-right">
+      <button class="e-btn e-flat e-primary header-btn">
+        <span class="e-icons e-settings"></span>
+        Settings
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Main Dashboard Content -->
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h2 class="dashboard-subtitle">Today's Overview</h2>
+    <p class="dashboard-date">{{ getCurrentDate() }}</p>
+  </div>
+
+  <!-- Health Metrics Grid -->
+  <div class="metrics-grid">
+    <div
+      *ngFor="let metric of healthMetrics"
+      class="metric-card"
+      [style.border-left]="'4px solid ' + metric.color"
+    >
+      <!-- Card Header -->
+      <div class="metric-header">
+        <div class="metric-icon-container">
+          <span class="metric-icon">{{ metric.icon }}</span>
+        </div>
+        <div class="metric-title">{{ metric.title }}</div>
+      </div>
+
+      <!-- Card Content -->
+      <div class="metric-content">
+        <div class="metric-value-container">
+          <span class="metric-value">{{ metric.value }}</span>
+          <span class="metric-unit">{{ metric.unit }}</span>
+        </div>
+        
+        <!-- Progress Indicator -->
+        <div class="metric-progress">
+          <div 
+            class="progress-bar"
+            [style.width.%]="metric.progress"
+            [style.background]="metric.bgGradient"
+          ></div>
+        </div>
+        
+        <!-- Badge for progress percentage -->
+        <div class="metric-badge">
+          <span class="e-badge e-badge-pill" [style.background-color]="metric.color">
+            {{ metric.progress }}%
+          </span>
+        </div>
+      </div>
+
+      <!-- Card Footer -->
+      <div class="metric-footer">
+        <button class="e-btn e-flat e-small detail-btn">
+          View Details
+          <span class="e-icons e-chevron-right"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Section -->
+  <div class="dashboard-summary">
+    <div class="summary-card">
+      <h3>Weekly Summary</h3>
+      <div class="summary-stats">
+        <div class="summary-item">
+          <span class="summary-label">Avg Steps:</span>
+          <span class="summary-value">7,200</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Avg Calories:</span>
+          <span class="summary-value">485 kcal</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Avg Heart Rate:</span>
+          <span class="summary-value">68 bpm</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Avg Sleep:</span>
+          <span class="summary-value">7.2 hrs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

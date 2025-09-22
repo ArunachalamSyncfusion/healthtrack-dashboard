@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HealthDataService } from '../services/health-data.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +12,9 @@ import { CommonModule } from '@angular/common';
 })
 export class DashboardComponent {
   title = 'HealthTrack Dashboard';
+
+  // Live data stream for sleep hours
+  sleepHours$: Observable<number>;
   
   // Sample health metrics data
   healthMetrics = [
@@ -46,14 +51,25 @@ export class DashboardComponent {
     {
       id: 'sleep',
       title: 'Sleep Hours',
-      value: '7.5',
+      value: '', // value will be provided dynamically from service
       unit: 'hrs',
       icon: '😴',
       color: '#8b5cf6',
       bgGradient: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
-      progress: 85
+      progress: 0 // progress will be computed dynamically
     }
   ];
+
+  constructor(private healthData: HealthDataService) {
+    this.sleepHours$ = this.healthData.sleepHours$;
+  }
+
+  // Compute progress based on an 8-hour goal
+  computeSleepProgress(hours: number): number {
+    const goal = 8;
+    const pct = Math.round((Math.max(0, Math.min(hours, goal)) / goal) * 100);
+    return pct;
+  }
 
   getCurrentDate(): string {
     const today = new Date();

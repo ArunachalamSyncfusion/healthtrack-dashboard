@@ -38,7 +38,14 @@
       <!-- Card Content -->
       <div class="metric-content">
         <div class="metric-value-container">
-          <span class="metric-value">{{ metric.value }}</span>
+          <span class="metric-value">
+            <ng-container *ngIf="metric.id !== 'sleep'; else sleepValue">
+              {{ metric.value }}
+            </ng-container>
+            <ng-template #sleepValue>
+              {{ ((sleepHours$ | async) ?? 0) | number:'1.1-1' }}
+            </ng-template>
+          </span>
           <span class="metric-unit">{{ metric.unit }}</span>
         </div>
         
@@ -46,7 +53,7 @@
         <div class="metric-progress">
           <div 
             class="progress-bar"
-            [style.width.%]="metric.progress"
+            [style.width.%]="metric.id === 'sleep' ? computeSleepProgress(((sleepHours$ | async) ?? 0)) : metric.progress"
             [style.background]="metric.bgGradient"
           ></div>
         </div>
@@ -54,7 +61,7 @@
         <!-- Badge for progress percentage -->
         <div class="metric-badge">
           <span class="e-badge e-badge-pill" [style.background-color]="metric.color">
-            {{ metric.progress }}%
+            {{ metric.id === 'sleep' ? computeSleepProgress(((sleepHours$ | async) ?? 0)) : metric.progress }}%
           </span>
         </div>
       </div>
